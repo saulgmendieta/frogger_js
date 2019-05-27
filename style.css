@@ -1,0 +1,21 @@
+#tittle{
+  background-color: olive;
+  color: white;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+#frogger_screen{
+  border: 1px solid black;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+canvas {
+  border: 1px solid black;
+  width: 100%;
+}
