@@ -18,22 +18,22 @@ window.addEventListener("load",function() {
       x: 0,
       y: 300,
       speed: 2,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 0
     },
     {
-      x: 0,
+      x: 400,
       y: 360,
       speed: 2,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 0
     },
     {
       x: 0,
       y: 420,
       speed: 2,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 0
     }
   ];
   var car_img = new Image();
@@ -41,21 +41,21 @@ window.addEventListener("load",function() {
 
   var woods = [
     {
-      x: -50,
+      x: 100,
       y: 70,
       speed: 2,
       w: 180,
       h: 60
     },
     {
-      x: 0,
+      x: 200,
       y: 130,
       speed: 2,
       w: 180,
       h: 60
     },
     {
-      x: 50,
+      x: 300,
       y: 190,
       speed: 2,
       w: 180,
@@ -133,6 +133,7 @@ window.addEventListener("load",function() {
         ctx.drawImage(goals, element.x, element.y);
       }
     });
+    lose_condition();
     win_condition();
     window.requestAnimationFrame(step);
   };
@@ -206,16 +207,66 @@ window.addEventListener("load",function() {
     once = 0;
   }, false);
 
+  var crash = function() {
+    cars.forEach(function(element, index){
+      var side_crash = false;
+      var front_crash = false;
+      if( ( (frog.x + frog.w) > element.x ) &&
+          ( frog.x < ( element.x + element.w ) ) ){
+            side_crash = true;
+      }
+      if( ( (frog.y + frog.h) > element.y ) &&
+          ( frog.y < ( element.y + element.h ) ) ){
+            front_crash = true;
+      }
+      if(side_crash==true && front_crash==true){
+        frog.x = 230;
+        frog.y = 470;
+        lose_count += 1;
+      }
+    });
+  }
+
+  var flood = function() {
+    if(frog.y < 230){
+      var over = false;
+      woods.forEach(function(element, index){
+        var side_crash = true;
+        var front_crash = true;
+        if(frog.x>element.x && frog.x<(element.x + element.w)){
+          if(frog.y>(element.y - element.h) && frog.y<element.y){
+            if (over != true){
+              over = true;
+            }
+          }
+        }
+      });
+      if (over != true){
+        frog.x = 230;
+        frog.y = 470;
+        lose_count += 1;
+      }
+    }
+  }
+
+  var lose_count=0;
+  var lose_condition = function() {
+    crash();
+    flood();
+    if(lose_count >= 3){
+      alert('You\'ve lose!');
+      window.location = "";
+    }
+  }
 
 
-  var win_condition = function(e) {
+  var win_condition = function() {
     if(wins[0].show == true && wins[1].show == true &&
        wins[2].show == true && wins[3].show == true &&
        wins[4].show == true){
          alert('You\'ve won!');
          window.location = "";
        }
-    console.log();
   }
 
   step();
