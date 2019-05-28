@@ -8,15 +8,32 @@ window.addEventListener("load",function() {
   var screen = document.getElementById("frogger_screen");
   var ctx = screen.getContext("2d");
 
-  // Background setting
-  var background;
-  background = new Image();
-  background.src = 'img/frogger_background.gif';
-
+  // Items setting
   var cars = [
     {
-      x: 0,
+      x: -230,
       y: 300,
+      speed: 3,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -30,
+      y: 300,
+      speed: 3,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 170,
+      y: 300,
+      speed: 3,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -200,
+      y: 360,
       speed: 2,
       w: 80,
       h: 0
@@ -29,20 +46,59 @@ window.addEventListener("load",function() {
       h: 0
     },
     {
-      x: 0,
-      y: 420,
+      x: 200,
+      y: 360,
       speed: 2,
-      w: 80,
-      h: 0
+      w: 180,
+      h: 60
+    },
+    {
+      x: -190,
+      y: 420,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+      x: 10,
+    {
+      y: 420,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 210,
+      y: 420,
+      speed: 1,
+      w: 180,
+      h: 60
     }
   ];
-  var car_img = new Image();
-  car_img.src = 'img/car.png';
-
   var woods = [
     {
-      x: 100,
+      x: -200,
       y: 70,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 50,
+      y: 70,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 300,
+      y: 70,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -250,
+      y: 130,
       speed: 2,
       w: 180,
       h: 60
@@ -55,25 +111,58 @@ window.addEventListener("load",function() {
       h: 60
     },
     {
-      x: 300,
-      y: 190,
+      x: 250,
+      y: 130,
       speed: 2,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -50,
+      y: 190,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 200,
+      y: 190,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 450,
+      y: 190,
+      speed: 1,
       w: 180,
       h: 60
     }
   ];
-  var wood_img = new Image();
-  wood_img.src = 'img/wood.png';
-
   var frog = {
     x: 230,
     y: 470,
     w: 50,
     h: 50
   };
+
+  // Image setting
+  var background;
+  var car_img;
+  var wood_img;
   var player;
-  player = new Image();
-  player.src = 'img/frog.png';
+
+  var load_images = function(){
+    background = new Image();
+    background.src = 'img/frogger_background.gif';
+    car_img = new Image();
+    wood_img = new Image();
+    car_img.src = 'img/car.png';
+    wood_img.src = 'img/wood.png';
+    player = new Image();
+    player.src = 'img/frog.png';
+  }
+
 
   var wins = [
     {
@@ -88,8 +177,8 @@ window.addEventListener("load",function() {
       y: 10,
       show: false,
       w: 180,
-      h: 60
     },
+      h: 60
     {
       x: 230,
       y: 10,
@@ -105,12 +194,12 @@ window.addEventListener("load",function() {
       h: 60
     },
     {
-      x: 452,
       y: 10,
+      x: 452,
       show: false,
-      w: 180,
-      h: 60
     }
+      h: 60
+      w: 180,
   ];
   var claimed = [false,false,false,false,false];
   var goals;
@@ -118,7 +207,23 @@ window.addEventListener("load",function() {
   goals.src = 'img/frog2.png';
 
   // Game refresh
-  var step = function() {
+  var update_positions = function(){
+    cars.forEach(function(element, index){
+      element.x += element.speed;
+      if(element.x >= GAME_WIDTH + 10){
+        element.x = -100;
+      }
+    });
+
+    woods.forEach(function(element, index){
+      element.x += element.speed;
+      if(element.x >= GAME_WIDTH + 10){
+        element.x = -200;
+      }
+    });
+
+  };
+  var update_images = function(){
     ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT);
     ctx.drawImage(background, 0, 0);
     cars.forEach(function(element, index){
@@ -133,6 +238,12 @@ window.addEventListener("load",function() {
         ctx.drawImage(goals, element.x, element.y);
       }
     });
+  }
+
+  var step = function() {
+    update_positions();
+    update_images();
+
     lose_condition();
     win_condition();
     window.requestAnimationFrame(step);
@@ -269,6 +380,7 @@ window.addEventListener("load",function() {
        }
   }
 
+  load_images();
   step();
 
 });
