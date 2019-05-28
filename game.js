@@ -11,131 +11,131 @@ window.addEventListener("load",function() {
   // Items setting
   var cars = [
     {
-      x: -230,
+      x: -100,
       y: 300,
       speed: 3,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 30
     },
     {
-      x: -30,
+      x: 100,
       y: 300,
       speed: 3,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 30
     },
     {
-      x: 170,
+      x: 300,
       y: 300,
       speed: 3,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 30
     },
     {
-      x: -200,
+      x: 0,
       y: 360,
       speed: 2,
       w: 80,
-      h: 0
+      h: 30
+    },
+    {
+      x: 200,
+      y: 360,
+      speed: 2,
+      w: 80,
+      h: 30
     },
     {
       x: 400,
       y: 360,
       speed: 2,
       w: 80,
-      h: 0
+      h: 30
     },
     {
-      x: 200,
-      y: 360,
-      speed: 2,
-      w: 180,
-      h: 60
-    },
-    {
-      x: -190,
+      x: 100,
       y: 420,
       speed: 1,
-      w: 180,
-      h: 60
-    },
-      x: 10,
-    {
-      y: 420,
-      speed: 1,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 30
     },
     {
-      x: 210,
+      x: 300,
       y: 420,
       speed: 1,
-      w: 180,
-      h: 60
+      w: 80,
+      h: 30
+    },
+    {
+      x: 500,
+      y: 420,
+      speed: 1,
+      w: 80,
+      h: 30
     }
   ];
   var woods = [
     {
-      x: -200,
+      x: -150,
       y: 70,
       speed: 1,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
-      x: 50,
+      x: 100,
       y: 70,
       speed: 1,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
-      x: 300,
+      x: 350,
       y: 70,
       speed: 1,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
       x: -250,
       y: 130,
       speed: 2,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
-      x: 200,
+      x: 0,
       y: 130,
       speed: 2,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
       x: 250,
       y: 130,
       speed: 2,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
       x: -50,
       y: 190,
       speed: 1,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
       x: 200,
       y: 190,
       speed: 1,
-      w: 180,
+      w: 150,
       h: 60
     },
     {
       x: 450,
       y: 190,
       speed: 1,
-      w: 180,
+      w: 150,
       h: 60
     }
   ];
@@ -177,8 +177,8 @@ window.addEventListener("load",function() {
       y: 10,
       show: false,
       w: 180,
-    },
       h: 60
+    },
     {
       x: 230,
       y: 10,
@@ -197,9 +197,9 @@ window.addEventListener("load",function() {
       y: 10,
       x: 452,
       show: false,
-    }
-      h: 60
       w: 180,
+      h: 60
+    }
   ];
   var claimed = [false,false,false,false,false];
   var goals;
@@ -239,9 +239,8 @@ window.addEventListener("load",function() {
       }
     });
   }
-
   var step = function() {
-    update_positions();
+    mupdate_positions();
     update_images();
 
     lose_condition();
@@ -312,6 +311,7 @@ window.addEventListener("load",function() {
         once = 1;
       }
     }
+
   }, false);
 
   window.addEventListener('keyup', function (e) {
@@ -320,20 +320,13 @@ window.addEventListener("load",function() {
 
   var crash = function() {
     cars.forEach(function(element, index){
-      var side_crash = false;
-      var front_crash = false;
-      if( ( (frog.x + frog.w) > element.x ) &&
-          ( frog.x < ( element.x + element.w ) ) ){
-            side_crash = true;
-      }
-      if( ( (frog.y + frog.h) > element.y ) &&
-          ( frog.y < ( element.y + element.h ) ) ){
-            front_crash = true;
-      }
-      if(side_crash==true && front_crash==true){
-        frog.x = 230;
-        frog.y = 470;
-        lose_count += 1;
+      var crash = false;
+      if((frog.x+frog.w) > element.x && frog.x < (element.x + element.w)){
+        if(frog.y > (element.y - element.h) && frog.y < element.y){
+          frog.x = 230;
+          frog.y = 470;
+          lose_count += 1;
+        }
       }
     });
   }
@@ -364,12 +357,11 @@ window.addEventListener("load",function() {
   var lose_condition = function() {
     crash();
     flood();
-    if(lose_count >= 3){
+    if(lose_count >= 30){
       alert('You\'ve lose!');
       window.location = "";
     }
   }
-
 
   var win_condition = function() {
     if(wins[0].show == true && wins[1].show == true &&
