@@ -76,8 +76,29 @@ window.addEventListener("load",function() {
   ];
   var woods = [
     {
-      x: -50,
+      x: -200,
       y: 70,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 50,
+      y: 70,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 300,
+      y: 70,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -250,
+      y: 130,
       speed: 2,
       w: 180,
       h: 60
@@ -90,9 +111,30 @@ window.addEventListener("load",function() {
       h: 60
     },
     {
-      x: 50,
-      y: 190,
+      x: 250,
+      y: 130,
       speed: 2,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -50,
+      y: 190,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 200,
+      y: 190,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 450,
+      y: 190,
+      speed: 1,
       w: 180,
       h: 60
     }
@@ -129,6 +171,14 @@ window.addEventListener("load",function() {
         element.x = -100;
       }
     });
+
+    woods.forEach(function(element, index){
+      element.x += element.speed;
+      if(element.x >= GAME_WIDTH + 10){
+        element.x = -200;
+      }
+    });
+
   };
   var update_images = function(){
     ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT);
