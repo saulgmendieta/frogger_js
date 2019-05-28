@@ -8,15 +8,32 @@ window.addEventListener("load",function() {
   var screen = document.getElementById("frogger_screen");
   var ctx = screen.getContext("2d");
 
-  // Background setting
-  var background;
-  background = new Image();
-  background.src = 'img/frogger_background.gif';
-
+  // Items setting
   var cars = [
     {
-      x: 0,
+      x: -230,
       y: 300,
+      speed: 3,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -30,
+      y: 300,
+      speed: 3,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 170,
+      y: 300,
+      speed: 3,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -200,
+      y: 360,
       speed: 2,
       w: 180,
       h: 60
@@ -29,16 +46,34 @@ window.addEventListener("load",function() {
       h: 60
     },
     {
-      x: 0,
-      y: 420,
+      x: 200,
+      y: 360,
       speed: 2,
+      w: 180,
+      h: 60
+    },
+    {
+      x: -190,
+      y: 420,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 10,
+      y: 420,
+      speed: 1,
+      w: 180,
+      h: 60
+    },
+    {
+      x: 210,
+      y: 420,
+      speed: 1,
       w: 180,
       h: 60
     }
   ];
-  var car_img = new Image();
-  car_img.src = 'img/car.png';
-
   var woods = [
     {
       x: -50,
@@ -62,20 +97,40 @@ window.addEventListener("load",function() {
       h: 60
     }
   ];
-  var wood_img = new Image();
-  wood_img.src = 'img/wood.png';
-
   var frog = {
     x: 230,
     y: 460,
     w: 50,
     h: 50
   };
+
+  // Image setting
+  var background;
+  var car_img;
+  var wood_img;
   var player;
-  player = new Image();
-  player.src = 'img/frog.png';
+
+  var load_images = function(){
+    background = new Image();
+    background.src = 'img/frogger_background.gif';
+    car_img = new Image();
+    car_img.src = 'img/car.png';
+    wood_img = new Image();
+    wood_img.src = 'img/wood.png';
+    player = new Image();
+    player.src = 'img/frog.png';
+  }
+
   // Game refresh
-  var step = function() {
+  var update_positions = function(){
+    cars.forEach(function(element, index){
+      element.x += element.speed;
+      if(element.x >= GAME_WIDTH + 10){
+        element.x = -100;
+      }
+    });
+  };
+  var update_images = function(){
     ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT);
     ctx.drawImage(background, 0, 0);
     cars.forEach(function(element, index){
@@ -85,10 +140,17 @@ window.addEventListener("load",function() {
       ctx.drawImage(wood_img, element.x, element.y);
     });
     ctx.drawImage(player, frog.x, frog.y);
+  }
+
+  var step = function() {
+    update_positions();
+    update_images();
+
     window.requestAnimationFrame(step);
   };
 
   // Game execution
+  load_images();
   step();
 
 });
