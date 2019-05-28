@@ -67,7 +67,7 @@ window.addEventListener("load",function() {
 
   var frog = {
     x: 230,
-    y: 460,
+    y: 470, //470
     w: 50,
     h: 50
   };
@@ -89,6 +89,50 @@ window.addEventListener("load",function() {
   };
 
   // Game execution
+  var once = 0;
+  window.addEventListener('keypress', function (e) {
+    if (e.keyCode !== 13) {
+      if(once==0){
+        if(e.keyCode === 119){
+          if(frog.y>230){
+            frog.y -= 60;
+          }
+          else if(frog.y>65){
+            frog.y -= 55;
+          }
+          else if(frog.y>10 && (frog.x==8 || frog.x==119 || frog.x==230 || frog.x==341 || frog.x==452)){
+            frog.y -= 55;
+          }
+        }
+        else if(e.keyCode === 115){
+          if(frog.y<230){
+            frog.y += 55;
+          }
+          else if(frog.y<470){
+            frog.y += 60;
+          }
+        }
+        else if(e.keyCode === 97){
+          if(frog.x > 8 && frog.y!=10){
+            frog.x -= 37;
+          }
+        }
+        else if(e.keyCode === 100){
+          if(frog.x < 452 && frog.y!=10){
+            frog.x += 37;
+          }
+        }
+        console.log('X: ', frog.x, ' , Y: ', frog.y);
+        once = 1;
+      }
+    }
+  }, false);
+
+  window.addEventListener('keyup', function (e) {
+    //console.log("Stop");
+    once = 0;
+  }, false);
+
   step();
 
 });
